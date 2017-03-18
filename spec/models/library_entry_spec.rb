@@ -72,11 +72,6 @@ RSpec.describe LibraryEntry, type: :model do
   end
   it do
     expect(subject).to validate_numericality_of(:rating)
-      .is_less_than_or_equal_to(5)
-      .is_greater_than(0)
-  end
-  it do
-    expect(subject).to validate_numericality_of(:new_rating)
       .is_less_than_or_equal_to(19)
       .is_greater_than_or_equal_to(1)
   end
@@ -135,18 +130,6 @@ RSpec.describe LibraryEntry, type: :model do
         library_entry.valid?
         expect(library_entry.errors[:progress]).to be_blank
       end
-    end
-  end
-
-  describe 'rating_on_halves validation' do
-    it 'should fail when rating is not divisible by 0.5' do
-      library_entry = build(:library_entry, rating: 3.14)
-      expect(library_entry).not_to be_valid
-      expect(library_entry.errors[:rating]).to be_present
-    end
-    it 'should pass when rating is divisible by 0.5' do
-      library_entry = build(:library_entry, rating: 3.5)
-      expect(library_entry.errors[:rating]).to be_blank
     end
   end
 
