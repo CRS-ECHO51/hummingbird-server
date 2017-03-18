@@ -136,27 +136,27 @@ RSpec.describe LibraryEntry, type: :model do
   describe 'updating rating_frequencies on media after save' do
     context 'with a previous value' do
       it 'should decrement the previous frequency' do
-        library_entry = create(:library_entry, rating: 3.5)
+        library_entry = create(:library_entry, rating: 5)
         media = library_entry.media
         expect {
-          library_entry.rating = 4.0
+          library_entry.rating = 6
           library_entry.save!
-        }.to change { media.reload.rating_frequencies['3.5'].to_i }.by(-1)
+        }.to change { media.reload.rating_frequencies['5'].to_i }.by(-1)
       end
       it 'should increment the new frequency' do
-        library_entry = create(:library_entry, rating: 3.5)
+        library_entry = create(:library_entry, rating: 5)
         media = library_entry.media
         expect {
-          library_entry.rating = 4.0
+          library_entry.rating = 6
           library_entry.save!
-        }.to change { media.reload.rating_frequencies['4.0'].to_i }.by(1)
+        }.to change { media.reload.rating_frequencies['6'].to_i }.by(1)
       end
     end
     context 'without a previous value' do
       it 'should not send any frequencies negative' do
-        library_entry = create(:library_entry, rating: 3.5)
+        library_entry = create(:library_entry, rating: 3)
         media = library_entry.media
-        library_entry.rating = 4.0
+        library_entry.rating = 4
         library_entry.save!
         media.reload
         freqs = media.rating_frequencies.transform_values(&:to_i)
